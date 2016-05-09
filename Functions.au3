@@ -66,3 +66,15 @@ Func _Send($whnd, $text)
 		Next
 EndFunc
 
+
+;; Get Pixel From window
+Func MemoryReadPixel($x, $y, $handle)
+	Local $hDC
+	Local $iColor
+	Local $sColor
+	$hDC = _WinAPI_GetWindowDC($handle)
+	$iColor = DllCall("gdi32.dll", "int", "GetPixel", "int", $hDC, "int", $x, "int", $y)
+	$sColor = Hex($iColor[0], 6)
+	_WinAPI_ReleaseDC($handle, $hDC)
+	Return Hex("0x" & StringRight($sColor, 2) & StringMid($sColor, 3, 2) & StringLeft($sColor, 2))
+EndFunc
